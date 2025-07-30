@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#317EFB">
+<link rel="icon" href="icon.png"> <!-- Optional custom icon -->
+
+
+
+  <title>Capture Geo Location and Submit Form</title>
+</head>
+<body>
+  <h2>Market Visit Location Capture</h2>
+
+  <form id="geoForm" action="https://docs.google.com/forms/d/e/1FAIpQLScxY0fiqqx1X3DlgeyXodEh5OLam7nW90vpvsessjpJ24K5XA/formResponse" method="POST" target="hidden_iframe">
+    
+    <!-- Visible field -->
+    <label for="name">Name:</label><br>
+    <input name="entry.1631693294" type="text" required><br><br>
+
+    <!-- Hidden location fields -->
+    <input type="hidden" id="latitude" name="entry.2103091463">
+    <input type="hidden" id="longitude" name="entry.2139640276">
+
+    <input type="submit" value="Submit Location">
+  </form>
+
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  <script>
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          document.getElementById("latitude").value = position.coords.latitude;
+          document.getElementById("longitude").value = position.coords.longitude;
+        },
+        function(error) {
+          alert("Location access denied or unavailable.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by your browser.");
+    }
+  </script>
+</body>
+</html>
