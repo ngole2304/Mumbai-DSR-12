@@ -1,34 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#317EFB">
-<link rel="icon" href="icon.png"> <!-- Optional custom icon -->
-
-
-
-  <title>Capture Geo Location and Submit Form</title>
+  <title>Auto Submit Location</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#317EFB">
 </head>
 <body>
-  <h2>Market Visit Location Capture</h2>
+  <h2>Capturing Your Location...</h2>
 
-  <form id="geoForm" action="https://docs.google.com/forms/d/e/1FAIpQLScxY0fiqqx1X3DlgeyXodEh5OLam7nW90vpvsessjpJ24K5XA/formResponse" method="POST" target="hidden_iframe">
-    
-    <!-- Visible field -->
-    <label for="name">Name:</label><br>
-    <input name="entry.1631693294" type="text" required><br><br>
-
-    <!-- Hidden location fields -->
-    <input type="hidden" id="latitude" name="entry.2103091463">
-    <input type="hidden" id="longitude" name="entry.2139640276">
-
-    <input type="submit" value="Submit Location">
+  <form id="geoForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdAgHTOQarTXX8eDN7UV05-7hxIlwDrn4nZYvAmzUuCPT0v9Q/formResponse" method="POST">
+    <input type="hidden" id="latitude" name="entry.1915803836">
+    <input type="hidden" id="longitude" name="entry.1459394584">
+    <input type="submit" id="submitBtn" style="display:none;">
   </form>
-
-  <iframe name="hidden_iframe" style="display:none;"></iframe>
 
   <script>
     if (navigator.geolocation) {
@@ -36,13 +22,16 @@
         function(position) {
           document.getElementById("latitude").value = position.coords.latitude;
           document.getElementById("longitude").value = position.coords.longitude;
+
+          // Automatically submit after coordinates are set
+          document.getElementById("geoForm").submit();
         },
         function(error) {
-          alert("Location access denied or unavailable.");
+          document.body.innerHTML = "<h3>❌ Location access denied or unavailable.</h3>";
         }
       );
     } else {
-      alert("Geolocation is not supported by your browser.");
+      document.body.innerHTML = "<h3>❌ Geolocation not supported by your browser.</h3>";
     }
   </script>
 </body>
